@@ -1,0 +1,105 @@
+1.select distinct p.cid from orders o, orders p where p.pid=o.pid and o.aid='a06'
+2.select city from customer
+ union
+ select city from agent;
+3.select distinct(o.pid) from orders o ,agent a where o.aid=a.aid and
+ a.city in( ’Darjeling’,’Srinagar’);
+4.select cid from customer 
+ where discount < ( select max(discount) from customer);
+5.select p.pid from product p
+ where 2 < = (select count(distinct cid) from orders
+ where pid = p.pid);
+6.select pid, aid, sum(qty) TOTAL
+ from orders
+ group by pid, aid; 
+7.select pid, aid, sum(qty) TOTAL
+ from orders
+ group by pid, aid
+having suzm(qty) > 1000;
+8.select distinct cname, aname
+ from customer, orders, agent
+ where customer.cid = orders.cid and
+ orders.aid = agent.aid;
+9.>select ordno from orders where cid in (select cid from customer where city = 
+ ’Darjeling’) and aid in (select aid from agent where city = ’NewDelhi’);
+10.select cname from customer 
+ where discount =any (select discount from customer
+ where city = ’Darjeling’ or city = ’Bangalore’);
+11.select cid from customer
+ where discount < all (select discount from customer 
+ where city = ’Srinagar’);
+12.select c.cname from customer c 
+ where exists (select * from orders o
+ where c.cid = o.cid and o.aid = ’a05’);
+13.select cname from customer 
+ where cid not in (select cid from orders where orders.aid = 'a05');
+14.select c.cid from customer c 
+ where not exists (select * from agent a where a.city = ’NewDelhi’ 
+and 
+ not exists (select * from orders o,customer c ,agent a where 
+ o.cid=c.cid and o.aid=a.aid));
+15.select a.aid from agent a 
+ where (a.city in (’NewDelhi’,’Srinagar’)) and 
+ not exists (select p.pid from product p where p.price > 15.00 
+ and
+ not exists (select * from orders o 
+ where o.pid = p.pid and o.aid = a.aid));
+16.select c.cname, c.cid, a.aname, a.aid, sum(o.ordamount)
+ from customer c, orders o, agent a
+where c.cid = o.cid and o.aid = a.aid
+group by c.cname, c.cid, a.aname, a.aid
+ having sum(o.ordamount) >= 9000.00
+ order by 5 desc;
+17.update agent
+set percent = 1.5 * percent
+where city = ’NewDelhi;
+18.select pid, sum(qty) TOTAL from orders group by pid;
+
+2
+1.select name from Employee
+ where salary in ( select max(salary) from Employee
+ where salary < (select max(salary) from Employee));
+2.select name from Employee e
+ where not exists (select * from dependent where essn=e.ssn) order by name;
+3.select name from Employee
+ where ( select count (*) from Dependent where ssn =Essn )>=2;
+4.select dno, count (*),avg(salary) from Employee group by dno;
+5.select dno,max(salary) from Employee group by dno order by max(salary) desc;
+6.select distinct(essn) from workson where pno=‘p01’or pno=’p02’ or pno=’p03’;
+7.select count(*) from Employee e, dependent d
+ where d.essn=e.ssn and e.name='Ram';
+8.select distinct(name) from Employee e , Department d, Dept_location l, Dependent de
+ where e.ssn= de.essn and de.sex!='F' and 
+ de.essn=d.mgr_ssn and
+ d.dnumber=l.dnumber and 
+ l.dlocation='Blore';
+9.select name from Employee
+ where dno = (select dno from Employee where name='Ram') and name!='Ram';
+10.select name, salary from Employee
+where salary> all ( select salary from Employee where dno=3 );
+11.select name from Employee e , dependent d
+ where e.ssn=d.essn and d.relationship='daughter' and e.dno=3;
+12.select name from Employee
+ where salary in ( select max(salary) from Employee group by dno ) ;
+13.select name from Employee
+ where salary in (select salary from Employee where name='Anil')
+ and name!=’Anil’;
+14.select count (*) from Employee, Department 
+ where dno =dnumber and dname=‘Research’;
+15.select Pnumber, Pname, count (*)
+ from Project, Workson
+where Pnumber=Pno 
+ GROUP BY Pnumber, Pname;
+16.
+
+
+
+
+
+
+
+
+
+
+
+
